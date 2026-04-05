@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created using Krita: https://krita.org -->
+
+<svg
+   width="197.7341pt"
+   height="264.86688pt"
+   viewBox="0 0 197.7341 264.86688"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient3">
+      <stop
+         style="stop-color:#48949c;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#48949c;stop-opacity:0;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0.35705355"
+         id="stop1" />
+      <stop
+         style="stop-color:#32e602;stop-opacity:1;"
+         offset="0.6560955"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient1"
+       id="linearGradient2"
+       x1="-18.442335"
+       y1="-22.24021"
+       x2="22.130159"
+       y2="67.818596"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0.49464673,114.63564)" />
+    <linearGradient
+       xlink:href="#linearGradient3"
+       id="linearGradient4"
+       x1="-0.62128299"
+       y1="17.0368"
+       x2="9.6514235"
+       y2="17.0368"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(3.4589467,120.50199)" />
+  </defs>
+  <path
+     id="shape0"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 0.49464673,117.98286 4.83070997,-3.34722 6.6421903,25.5312 16.5233,10.1027 -25.3338203,13.7375 3.21133,-21.1816 c -0.04575,-0.0871 -2.00365,-8.368 -5.87370997,-24.84258 z"
+     style="fill:url(#linearGradient2)" />
+  <path
+     id="shape1"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     stroke-miterlimit="2"
+     d="m 3.4589467,120.50199 9.0301403,34.0736"
+     style="fill:url(#linearGradient4)" />
+  <path
+     id="shape2"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     stroke-miterlimit="2"
+     d="m 11.185347,146.50393 2.68983,-1.25521" />
+  <path
+     id="shape3"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     stroke-miterlimit="2"
+     d="m 11.597057,149.85114 6.4501,-3.26005" />
+  <path
+     id="shape4"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     stroke-miterlimit="2"
+     d="m 12.420477,152.93686 9.62026,-5.09056" />
+  <path
+     id="shape5"
+     fill="#64ccd7"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 175.55257,46.062932 c 2.62981,-0.971925 4.30584,-1.680579 6.57178,-3.567525 2.26594,-1.886939 3.84555,-4.455324 5.23944,-8.06147 1.77977,-8.00351 -2.75393,-16.415314 -8.90835,-19.769026 -5.15377,-4.484192 -14.45591,-2.443588 -20.52781,0.687079" />
+  <path
+     id="shape6"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 165.77398,23.146831 c -0.0313,-0.05958 -0.13975,0.0523 -0.20585,0.0523" />
+  <path
+     id="shape7"
+     fill="#64ccd7"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 39.940777,18.487665 c -6.4594,-3.617251 -13.9817,-4.36679 -20.41397,-0.7076 -6.43228,3.65918 -10.3176033,10.65397 -9.8499672,17.67977 0.4676362,7.0258 6.0346672,11.418 12.9025372,14.3034" />
+  <path
+     id="shape8"
+     d="m 25.623356,40.059743 a 7.4400001,6.96 0 0 1 -5.232238,-5.753576 7.4400001,6.96 0 0 1 3.456222,-6.826977 7.4400001,6.96 0 0 1 8.073448,0.141414"
+     fill="#080a0a"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <path
+     id="shape9"
+     d="m 165.21176,23.222759 a 6.5999999,6.48 0 0 1 7.53405,3.056511 6.5999999,6.48 0 0 1 -1.23703,7.910994"
+     fill="#080a0a"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <path
+     id="shape10"
+     fill="#e8d1a8"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 182.14173,130.36073 c 10.2321,1.84642 17.6772,5.26575 14.2374,11.0193 -1.5104,10.236 -8.80842,4.1691 -14.2374,1.1318" />
+  <path
+     id="shape11"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 196.01173,142.12828 c -0.75241,-0.95581 -3.11566,-2.03364 -3.44005,-2.5046" />
+  <path
+     id="shape12"
+     fill="#e8d1a8"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 163.5528,240.768 c -1.3084,-2.21012 3.134,1.81758 4.6477,3.38789 2.9384,3.04838 8.177,10.33675 3.2205,15.75395 -9.967,7.7421 -19.47224,-13.13033 -21.7474,-9.89632" />
+  <path
+     id="shape13"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 166.27918,251.51279 c -1.84793,-2.34747 6.17317,9.36643 3.19303,9.57675" />
+  <path
+     id="shape14"
+     fill="#e8d1a8"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 39.068837,241.82591 c -10.88411,4.42833 -16.53128,13.4569 -10.6289,19.32 4.27613,2.76 4.5804,6.1376 13.4902,-1.2938 1.9165,-1.6352 4.9936,-5.371 13.3531,-7.5139" />
+  <path
+     id="shape15"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 29.956325,261.43414 c -0.931184,-3.56985 2.330152,-5.59763 3.348562,-8.12397" />
+  <path
+     id="shape16"
+     fill="#e8d1a8"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 21.289177,130.99327 c 0.524,-0.33278 -4.7589,0.24407 -5.3796,0.24407 -10.9864763,2.67846 -12.8988803,8.80658 -10.4085613,12.02402 -0.071429,5.6 9.0997613,6.6564 16.1541613,-0.6574" />
+  <path
+     id="shape17"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 5.6717247,143.20248 c -1.216548,0.38635 4.6071423,-2.17971 3.403462,-1.75497" />
+  <path
+     id="shape18"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="M 157.22503,15.751145" />
+  <path
+     id="shape19"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="M 171.57993,34.526935" />
+  <path
+     id="shape20"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="M 26.878067,39.024755" />
+  <path
+     id="shape21"
+     fill="#64ccd7"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 93.144857,0.5550186 c -9.4854,0.5127856 -14.6623,1.4590666 -22.2323,3.2949166 -15.2274,3.6929 -26.5831,7.4269498 -36.6969,20.9200498 -9.25985,9.1646 -18.54853,36.5161 -14.678262,76.142595 2.465012,16.407 3.093012,41.654 1.040242,59.127 0.03321,17.246 -1.15963,37.316 0.71035,47.049 3.67721,16.057 8.92757,25.623 20.59917,37.273 14.8783,9.648 17.9125,9.589 29.3388,12.908 11.9068,2.473 25.2752,3.722 38.342803,2.337 26.3735,-2.201 51.3305,-11.305 59.4125,-26.856 7.172,-9.11 13.012,-29.837 13.532,-40.742 -0.042,-19.636 -1.814,-55.338 -1.036,-91.5208 0.283,-35.642395 -6.379,-70.440795 -21.773,-83.004895 -6.581,-7.8860398 -21.046,-12.5105098 -33.952,-14.6250898 -13.0869,-2.677268 -30.169703,-2.154553 -32.929903,-2.32021" />
+  <path
+     id="shape22"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 91.282087,39.539355 c 0,-11.9957 -10.7416,-23.0624 -24.1953,-23.0624 -13.4536,0 -25.540215,9.93358 -25.540215,21.9292 -1.605565,12.1089 9.053975,24.6285 24.195315,24.5093 13.4537,0 25.5402,-11.3805 25.5402,-23.3761 z" />
+  <path
+     id="shape23"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 152.6551,37.432495 c 0,-12.5921 -11.2824,-22.8 -25.2,-22.8 -13.9175,0 -25.2823,9.82437 -25.2823,22.4165 0,12.5921 11.2001,22.9569 25.1177,22.9569 13.9175,0 25.3646,-9.9813 25.3646,-22.5734 z" />
+  <path
+     id="shape24"
+     fill="#000000"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 122.38071,38.410805 c 0,-4.70546 -2.1794,-7.77036 -6.22215,-7.77036 -4.04272,0 -7.81405,3.1172 -7.81405,7.82266 0,4.70544 2.67344,8.46774 6.71616,8.46774 4.04274,0 7.32004,-3.8146 7.32004,-8.52004 z" />
+  <ellipse
+     id="shape25"
+     rx="6.96"
+     ry="8.2799997"
+     cx="54.460667"
+     cy="40.810806"
+     fill="#000000"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <ellipse
+     id="shape26"
+     rx="2.2494895"
+     ry="2.4107506"
+     cx="56.828434"
+     cy="42.903976"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <ellipse
+     id="shape27"
+     rx="2.04"
+     ry="2.28"
+     cx="118.66067"
+     cy="40.330807"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <path
+     id="shape28"
+     fill="#000000"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 110.14067,61.570805 c 0,-3.5788 -4.5918,-7.29937 -10.357703,-7.29937 -5.76581,0 -10.5223,3.72057 -10.5223,7.29937 0,3.57883 4.71532,5.69553 10.4812,5.69553 5.765803,0 10.398803,-2.1167 10.398803,-5.69553 z" />
+  <path
+     id="shape29"
+     fill="#e8d1a8"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 89.228037,63.116423 c 0.22001,-0.06445 -4.40957,0.708502 -7.533593,6.330232 -1.054439,1.81654 -0.123942,7.96345 7.309443,8.61605 4.00019,-0.3258 6.20139,-1.7898 9.35429,-1.7971 3.153003,-0.0074 7.509203,2.1683 11.729803,2.846 4.6217,0.5347 9.263,-1.5646 9.7205,-5.7498 0.523,-6.85559 -9.6256,-10.086114 -9.7297,-10.5679" />
+  <path
+     id="shape30"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 87.174067,78.205045 c 0,-3.05853 1.48347,5.57582 2.15461,8.55981 2.77311,15.011895 10.09749,4.4368 9.31379,-4.23633 0.0772,-2.40235 1.0691,-6.836998 0.3156,-6.232442" />
+  <path
+     id="shape31"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 98.958076,76.296081 c -0.575298,-0.229753 0.844821,23.831959 8.842594,15.492464 2.10775,-5.2719 0.67973,-13.93852 0.46202,-13.18254" />
+  <path
+     id="shape32"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="none"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 18.697077,84.292355 70.3747,48.918195 0.8783,126.4448 c -47.6812,-3.786 -70.773479,-27.873 -69.2768,-72.262 2.62998,-73.2558 1.23376,-68.3426 -1.9762,-103.100995 z" />
+  <path
+     id="shape33"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     stroke="none"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 89.913347,259.51086 -1.64683,-127.5957 c 30.969203,-17.0451 61.732903,-34.216195 91.907103,-53.189295 1.7682,32.001395 0.004,68.404995 2.118,106.276995 -0.3964,15.19 -3.2806,28.099 -8.6526,38.727 -6.2869,13.412 -14.1467,21.76 -23.5796,25.042 -19.4944,7.833 -4.7549,3.278 -21.5415,7.718 -16.7318,3.325 -26.161,3.435 -38.604573,3.021 z" />
+  <path
+     id="shape34"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 18.340258,84.658455 c 23.019949,15.991395 49.452749,34.791895 69.112149,47.924495 l -29.5332,1.7433 -10.7319,-23.2562 -4.4464,8.4378 C 25.686967,107.58335 17.553437,95.966955 18.340258,84.658455 Z" />
+  <path
+     id="shape35"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 180.19664,78.417295 -90.411203,53.555395 60.548603,-13.0111 -6.9167,-7.229 19.2954,-4.8059 c 12.3513,-12.386795 18.1793,-21.889925 17.4839,-28.509395 z" />
+  <path
+     id="shape36"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     stroke-miterlimit="2"
+     d="m 89.419307,132.14184 3.04664,127.194" />
+  <ellipse
+     id="shape37"
+     rx="2.8800001"
+     ry="3.1199999"
+     cx="98.140663"
+     cy="150.3708"
+     fill="#000000"
+     fill-rule="evenodd"
+     stroke="none"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <ellipse
+     id="shape01"
+     rx="2.8800001"
+     ry="3.1199999"
+     cx="99.299904"
+     cy="179.7272"
+     fill="#000000"
+     stroke="none"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <ellipse
+     id="shape02"
+     rx="2.8800001"
+     ry="3.1199999"
+     cx="100.44998"
+     cy="205.59111"
+     fill="#000000"
+     stroke="none"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <ellipse
+     id="shape03"
+     rx="2.8800001"
+     ry="3.1199999"
+     cx="101.83795"
+     cy="233.54121"
+     fill="#000000"
+     stroke="none"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel" />
+  <path
+     id="shape38"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 147.20303,140.00082 c 4.19003,0 8.38013,0 12.57023,0 4.0178,0 8.4002,-0.90949 7.2749,7.27491 l -0.3843,10.37066 c 0,4.0178 -3.2571,7.2749 -7.2749,7.2749 h -12.57019 c -4.01782,0 -7.27491,-3.2571 -7.27491,-7.2749 l 0.38426,-10.37066 c -0.10979,-10.27642 3.25709,-7.27491 7.27491,-7.27491 z" />
+  <path
+     id="shape39"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     d="m 144.5194,139.4647 c 0,0.8083 -0.36647,-5.11681 -0.30878,-5.92296 0.35698,-4.98829 5.42769,-6.50635 6.84123,0.12204 0,1.05262 -0.0343,6.80502 -0.0343,5.94482" />
+  <rect
+     id="shape40"
+     fill="#48949c"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="2.2152"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     width="54.080055"
+     height="53.533367"
+     rx="15.736506"
+     ry="15.504294"
+     style="fill:#48949c;fill-opacity:0.738792"
+     x="40.276817"
+     y="13.764895" />
+  <path
+     id="shape41"
+     fill="none"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     stroke-miterlimit="2"
+     d="m 94.100697,41.473565 0.805119,0.06973" />
+  <rect
+     id="shape04"
+     fill="#48949c"
+     stroke="#000000"
+     stroke-width="2.2152"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     width="54.080055"
+     height="53.533367"
+     rx="15.736506"
+     ry="15.504294"
+     style="fill:#48949c;fill-opacity:0.744169"
+     x="102.0584"
+     y="12.512715" />
+  <rect
+     id="shape42"
+     fill="#000000"
+     fill-rule="evenodd"
+     stroke="#000000"
+     stroke-width="1.01616"
+     stroke-linecap="square"
+     stroke-linejoin="bevel"
+     width="7.4400001"
+     height="3.3599999"
+     x="94.596863"
+     y="39.508236" />
+</svg>

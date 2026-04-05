@@ -14,6 +14,10 @@ export type ExpsResponse = {
   };
 };
 
+export function ListExps(resp: ExpsResponse): string[] {
+  return Object.keys(resp.exps);
+}
+
 export type Experiment = {
   details: string;
   runs: string[];

@@ -1,28 +1,21 @@
-import { useEffect } from "react";
 import "./App.css";
-import { artifacts, experiment, experiments, metrics } from "./api/Mlsolid";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
+import { AppSidebar } from "./components/sidebar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
-  useEffect(() => {
-    const fetchExps = async () => {
-      const resp = await experiments();
-      const resp2 = await experiment("exp1");
-      const resp3 = await metrics("exp2");
-      const resp4 = await artifacts("exp1");
-
-      console.log(resp);
-      console.log(resp2);
-      console.log(resp3);
-      console.log(resp4);
-    };
-
-    fetchExps();
-  }, []);
-
   return (
-    <>
-      <div>Hello world!!!</div>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <SidebarProvider>
+        <AppSidebar />
+        <main>
+          <SidebarTrigger></SidebarTrigger>
+          <div>Hello world!!!</div>
+        </main>
+      </SidebarProvider>
+    </QueryClientProvider>
   );
 }
 
