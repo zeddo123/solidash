@@ -1,21 +1,27 @@
 import "./App.css";
-import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
-import { AppSidebar } from "./components/sidebar";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar";
+import { Route, Routes } from "react-router";
+import { Overview } from "@/components/overview";
+import Experiment from "@/components/experiment";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SidebarProvider>
-        <AppSidebar />
-        <main>
-          <SidebarTrigger></SidebarTrigger>
-          <div>Hello world!!!</div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <main className="flex-1">
+          <Routes>
+            <Route>
+              <Route path="/" element={<Overview />}></Route>
+              <Route path="/experiments/:id" element={<Experiment />}></Route>
+            </Route>
+          </Routes>
+          <Toaster></Toaster>
         </main>
-      </SidebarProvider>
-    </QueryClientProvider>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
 
