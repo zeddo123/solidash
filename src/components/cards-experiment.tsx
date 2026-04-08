@@ -1,6 +1,5 @@
 import {
   ExperimentMetricsCount,
-  ExperimentRuns,
   ExperimentRunsCount,
   type Experiment,
 } from "@/api/mlsolid";
@@ -29,7 +28,7 @@ export default function CardsExperiment({
       ></MetricsCard>
       <ListCard
         title="Runs"
-        list={ExperimentRuns(data)}
+        list={data?.runs}
         isLoading={isLoading}
         error={error}
       ></ListCard>

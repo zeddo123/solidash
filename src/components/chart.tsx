@@ -1,4 +1,4 @@
-import { metric } from "@/api/mlsolid";
+import { metric, type RunInfo } from "@/api/mlsolid";
 import { useQuery } from "@tanstack/react-query";
 import SingleNumericChart from "@/components/single-numeric-chart";
 import {
@@ -20,8 +20,10 @@ import TableChart from "./table-chart";
 interface ChartProps {
   expId: string;
   metricId: string;
+  runs: RunInfo[];
 }
-function Chart({ expId, metricId }: ChartProps) {
+
+function Chart({ expId, metricId, runs }: ChartProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["metric", expId, metricId],
     staleTime: 1000 * 30,
@@ -73,11 +75,19 @@ function Chart({ expId, metricId }: ChartProps) {
         ) : data ? (
           <div ref={chartRef}>
             {data.kind == "metric/single-numeric" ? (
-              <SingleNumericChart metric={memMetric!} name={metricId} />
+              <SingleNumericChart
+                metric={memMetric!}
+                name={metricId}
+                runs={runs}
+              />
             ) : data.kind == "metric/single" ? (
               <TableChart name={metricId} metric={memMetric!} />
             ) : data.kind == "metric/continuous" ? (
-              <ContinuousChart metric={memMetric!} name={metricId} />
+              <ContinuousChart
+                metric={memMetric!}
+                name={metricId}
+                runs={runs}
+              />
             ) : data.kind == "metric/multival" ? (
               <TableChart name={metricId} metric={memMetric!} />
             ) : data.kind == "metric/complex" ? (

@@ -1,4 +1,9 @@
-import { MaxLength, type MetricValues } from "@/api/mlsolid";
+import {
+  GetRunColor,
+  MaxLength,
+  type MetricValues,
+  type RunInfo,
+} from "@/api/mlsolid";
 import { LineChart, CartesianGrid, XAxis, YAxis, Legend, Line } from "recharts";
 import {
   ChartContainer,
@@ -10,9 +15,10 @@ import {
 interface ContinousChartProps {
   name: string;
   metric: MetricValues;
+  runs: RunInfo[];
 }
 
-function ContinuousChart({ name, metric }: ContinousChartProps) {
+function ContinuousChart({ name, metric, runs }: ContinousChartProps) {
   const arrayLength = MaxLength(metric);
 
   let lowerBound: number | null = null;
@@ -39,15 +45,16 @@ function ContinuousChart({ name, metric }: ContinousChartProps) {
     upperBound = 100;
   }
 
-  const chartConfig = Object.keys(metric).reduce((config, metric, index) => {
-    // Assign a distinct colour – you can also hardcode specific colours
-    const hue = (index * 37) % 360; // simple hash to get variety
-    config[metric] = {
-      label: metric + ":" + name,
-      color: `hsl(${hue}, 70%, 50%)`,
+  const chartConfig = Object.keys(metric).reduce((config, runId) => {
+    const color = GetRunColor(runs, runId);
+    config[runId] = {
+      label: runId + ":" + name,
+      color: `${color}`,
     };
     return config;
   }, {} as ChartConfig);
+  console.log(runs);
+  console.log(chartConfig);
 
   return (
     <ChartContainer config={chartConfig} className="h-[400px] w-full">

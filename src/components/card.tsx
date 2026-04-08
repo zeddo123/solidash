@@ -9,6 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { type RunInfo } from "@/api/mlsolid";
 
 interface MetricsCardProps {
   title: string;
@@ -46,7 +47,7 @@ export function MetricsCard({
 
 interface ListCardProps {
   title: string;
-  list: string[] | undefined;
+  list: RunInfo[] | undefined;
   isLoading: boolean;
   error: Error | null;
 }
@@ -69,12 +70,24 @@ export function ListCard({ title, list, isLoading, error }: ListCardProps) {
             <ScrollArea className="h-32 w-full rounded-md ">
               <div>
                 <ul>
-                  {list.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <div className="text-sm">{item}</div>
-                      <Separator className="my-2" />
-                    </React.Fragment>
-                  ))}
+                  {list &&
+                    list.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <div className="text-sm">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "12px",
+                              height: "12px",
+                              borderRadius: "50%",
+                              backgroundColor: item.color,
+                            }}
+                          />
+                          {" " + item.runId}
+                        </div>
+                        <Separator className="my-2" />
+                      </React.Fragment>
+                    ))}
                 </ul>
               </div>
             </ScrollArea>

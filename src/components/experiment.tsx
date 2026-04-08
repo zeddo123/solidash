@@ -51,8 +51,13 @@ function Experiment() {
             {data &&
               data.metrics &&
               data.metrics.sort().map((item) => (
-                <div className="h-[500px] md:h-[500px] lg:h-[580px]">
-                  <Chart expId={id!} metricId={item} key={item}></Chart>
+                <div className="h-[500px] md:h-[500px] lg:h-[580px]" key={item}>
+                  <Chart
+                    expId={id!}
+                    metricId={item}
+                    key={item}
+                    runs={data.runs!}
+                  ></Chart>
                 </div>
               ))}
           </div>

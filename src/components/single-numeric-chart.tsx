@@ -1,4 +1,4 @@
-import type { MetricValues } from "@/api/mlsolid";
+import { GetRunColor, type MetricValues, type RunInfo } from "@/api/mlsolid";
 import {
   ChartContainer,
   ChartTooltip,
@@ -10,9 +10,10 @@ import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 interface SingleNumericChartProps {
   name: string;
   metric: MetricValues;
+  runs: RunInfo[];
 }
 
-function SingleNumericChart({ name, metric }: SingleNumericChartProps) {
+function SingleNumericChart({ name, metric, runs }: SingleNumericChartProps) {
   const data = Object.keys(metric).map((id) => {
     return {
       run: id,
@@ -20,11 +21,14 @@ function SingleNumericChart({ name, metric }: SingleNumericChartProps) {
     };
   });
 
-  const chartConfig = {
-    val: {
-      label: name,
-    },
-  } satisfies ChartConfig;
+  const chartConfig = Object.keys(metric).reduce((config, runId) => {
+    const color = GetRunColor(runs, runId);
+    config[runId] = {
+      label: runId + ":" + name,
+      color: `${color}`,
+    };
+    return config;
+  }, {} as ChartConfig);
 
   console.log("re-rendering single numeric");
 

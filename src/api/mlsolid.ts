@@ -38,8 +38,14 @@ export function TotalRuns(resp: ExpsResponse): number {
 
 export type Experiment = {
   details: string;
-  runs?: string[];
+  runs?: RunInfo[];
   metrics?: string[];
+};
+
+export type RunInfo = {
+  runId: string;
+  createdAt: string;
+  color: string;
 };
 
 export function ExperimentRunsCount(resp: Experiment | undefined): number {
@@ -63,7 +69,20 @@ export function ExperimentRuns(resp: Experiment | undefined): string[] {
     return [];
   }
 
-  return resp.runs;
+  return resp.runs.map((info) => {
+    return info.runId;
+  });
+}
+
+export function GetRunColor(
+  runs: RunInfo[],
+  runId: string,
+): string | undefined {
+  return runs.find((info) => {
+    if (info.runId == runId) {
+      return info;
+    }
+  })?.color;
 }
 
 export type Metrics = {
