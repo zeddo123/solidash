@@ -1,5 +1,5 @@
 # Solidash
-This is a beautifull dashboard interface for [mlsolid](https://github.com/zeddo132/mlsolid), an MLOps platform. This
+This is a beautifull dashboard interface for [mlsolid](https://github.com/zeddo123/mlsolid), an MLOps platform. This
 project aims to be a visualisation platform as well as UI to interface with mlsolid's service (such as creating Model registries, downloading artifacts, etc)
 
 <img width="2558" height="1444" alt="Screenshot From 2026-04-09 01-36-22" src="https://github.com/user-attachments/assets/45d745ff-b27b-493d-bae2-304b8170a9fc" />
