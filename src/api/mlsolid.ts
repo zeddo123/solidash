@@ -1,7 +1,8 @@
-const APIBase: string = import.meta.env.VITE_MLSOLID;
+console.log("MLSOLID", import.meta.env.VITE_MLSOLID);
+const Mlsolid: string = import.meta.env.VITE_MLSOLID;
 
-const expsURL: string = `${APIBase}/v1/exps/`;
-const expURL: string = `${APIBase}/v1/exp/`;
+const expsURL: string = `${Mlsolid}/v1/exps/`;
+const expURL: string = `${Mlsolid}/v1/exp/`;
 
 export type MetricKind =
   | "metric/continuous"
