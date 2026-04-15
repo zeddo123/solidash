@@ -1,4 +1,3 @@
-//const APIBase: string = "http://localhost:8050";
 const APIBase: string = import.meta.env.VITE_MLSOLID;
 
 const expsURL: string = `${APIBase}/v1/exps/`;
