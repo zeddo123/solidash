@@ -2,7 +2,12 @@ console.log("MLSOLID", import.meta.env.VITE_MLSOLID);
 const Mlsolid: string = import.meta.env.VITE_MLSOLID;
 
 const expsURL: string = `${Mlsolid}/v1/exps/`;
+const authURL: string = `${Mlsolid}/authorized/`;
 const expURL: string = `${Mlsolid}/v1/exp/`;
+const registriesURL: string = `${Mlsolid}/v1/registries/`;
+const registryURL: string = `${Mlsolid}/v1/registry/`;
+const benchmarksURL: string = `${Mlsolid}/v1/benchmarks/`;
+const benchmarkURL: string = `${Mlsolid}/v1/benchmark/`;
 
 export type MetricKind =
   | "metric/continuous"
@@ -150,8 +155,48 @@ export type Artifacts = {
   artifacts: { [runId: string]: string[] };
 };
 
+export type RegistriesResponse = {
+  details: string;
+  registries: string[];
+};
+
+export type RegistryResponse = {
+  details: string;
+  name: string;
+  lastVer: number;
+  tags: string[];
+  createdAt: Date;
+  entriesInfo: { [version: number]: { createdAt: Date } };
+};
+
+export type BenchmarksResponse = {
+  details: string;
+  benchmarks: string[];
+};
+
+export type BenchmarkResponse = {
+  details: string;
+  benchmark: Benchmark;
+};
+
+export type Benchmark = {
+  id: string;
+  name: string;
+  paused: boolean;
+  eagerStart: boolean;
+  autoTag: boolean;
+  tag: string;
+  decisionMetric: string;
+  registries: string[];
+  metrics: { name: string; descSort: boolean }[];
+  datasetName: string;
+  datasetUrl: string;
+  fromS3: boolean;
+  timestamp: Date;
+};
+
 export async function experiments(): Promise<ExpsResponse> {
-  const resp = await fetch(expsURL);
+  const resp = await makeRequest(expsURL);
 
   if (!resp.ok) {
     throw new Error(`HTTP error ${resp.status}`);
@@ -165,7 +210,7 @@ export async function experiments(): Promise<ExpsResponse> {
 export async function experiment(expId: string): Promise<Experiment> {
   const url = `${expURL}${expId}`;
 
-  const resp = await fetch(url);
+  const resp = await makeRequest(url);
 
   if (!resp.ok) {
     throw new Error(`HTTP error ${resp.status}`);
@@ -179,7 +224,7 @@ export async function experiment(expId: string): Promise<Experiment> {
 export async function metrics(expId: string): Promise<Metrics> {
   const url = `${expURL}${expId}/metrics/`;
 
-  const resp = await fetch(url);
+  const resp = await makeRequest(url);
 
   if (!resp.ok) {
     throw new Error(`HTTP error ${resp.status}`);
@@ -193,7 +238,7 @@ export async function metrics(expId: string): Promise<Metrics> {
 export async function metric(expId: string, metricId: string): Promise<Metric> {
   const url = `${expURL}${expId}/metric/${metricId}`;
 
-  const resp = await fetch(url);
+  const resp = await makeRequest(url);
 
   if (!resp.ok) {
     throw new Error(`HTTP Error ${resp.status}`);
@@ -207,7 +252,7 @@ export async function metric(expId: string, metricId: string): Promise<Metric> {
 export async function artifacts(expId: string): Promise<Artifacts> {
   const url = `${expURL}${expId}/artifacts`;
 
-  const resp = await fetch(url);
+  const resp = await makeRequest(url);
 
   if (!resp.ok) {
     throw new Error(`HTTP Error ${resp.status}`);
@@ -216,4 +261,50 @@ export async function artifacts(expId: string): Promise<Artifacts> {
   const data = resp.json();
 
   return data as Promise<Artifacts>;
+}
+
+export async function registries(): Promise<RegistriesResponse> {
+  const resp = await makeRequest(registriesURL);
+
+  const data = await resp.json();
+
+  return data as RegistriesResponse;
+}
+
+export async function registry(id: string): Promise<RegistryResponse> {
+  const url = `${registryURL}/${id}`;
+
+  const resp = await makeRequest(url);
+
+  if (resp.status != 200) {
+    throw Error("could not fetch registry");
+  }
+
+  return (await resp.json()) as RegistryResponse;
+}
+
+export async function benchmarks(): Promise<BenchmarksResponse> {
+  const resp = await makeRequest(benchmarksURL);
+
+  return (await resp.json()) as BenchmarksResponse;
+}
+
+export async function benchmark(id: string): Promise<BenchmarkResponse> {
+  const url = `${benchmarkURL}/${id}`;
+
+  const resp = await makeRequest(url);
+
+  return (await resp.json()) as BenchmarkResponse;
+}
+
+export async function isAuthorized(): Promise<boolean> {
+  const resp = await makeRequest(authURL);
+
+  return !(resp.status == 401);
+}
+
+async function makeRequest(url: string): Promise<Response> {
+  return await fetch(url, {
+    credentials: "include",
+  });
 }
