@@ -33,10 +33,7 @@ export function MetricsCard({
         ) : error ? (
           <div>something went wrong</div>
         ) : (
-          <CardTitle
-            variant="accented"
-            className="text-1xl font-semibold tabular-nums @[250px]/card:text-3xl"
-          >
+          <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-3xl">
             <>{data}</>
           </CardTitle>
         )}
