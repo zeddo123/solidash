@@ -58,6 +58,7 @@ export default function Login({
                         onClick={() => {
                           window.location.href = `${import.meta.env.VITE_MLSOLID}/login/google`;
                         }}
+                        className="cursor-pointer"
                         variant="outline"
                         type="button"
                       >

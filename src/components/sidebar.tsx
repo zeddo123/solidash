@@ -4,10 +4,9 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -32,10 +31,14 @@ import {
   FlaskRound,
   LayoutGrid,
   Table2,
+  Plus,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { Dialog, DialogTrigger } from "./ui/dialog";
+import { AddModelRegistryDialog } from "./add-model-registry";
+import { AddBenchmarkDialog } from "./add-benchmark";
 
 export function AppSidebar() {
   const navigate = useNavigate();
@@ -96,120 +99,131 @@ export function AppSidebar() {
           <div className="flex flex-col">
             <span className="text-lg font-semibold">MlSolid</span>
             <span className="text-xs text-muted-foreground">
-              Research Suite
+              MLOps platform.
             </span>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <Link to="/">
-                <SidebarMenuButton isActive={isActive("/")}>
-                  <LayoutGrid />
-                  <span>Overview</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <Link to="/">
+              <SidebarMenuButton
+                isActive={isActive("/")}
+                className="cursor-pointer"
+              >
+                <LayoutGrid />
+                <span className="ml-2">Overview</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
 
-        <Collapsible
-          defaultOpen
-          className="group/collapsible"
-          title="experiments"
-          key="experiments"
-        >
-          <SidebarGroup>
-            <SidebarGroupLabel
-              asChild
-              className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <CollapsibleTrigger>
-                <FlaskRound />
-                <span className="ml-2">Experiments</span>
-                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+          <Collapsible
+            defaultOpen
+            className="group/collapsible"
+            title="experiments"
+            key="experiments"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton>
+                  <FlaskRound />
+                  <span className="ml-2">Experiments</span>
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </SidebarMenuButton>
               </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarMenuSub>
-                {!expsQuery.isLoading &&
-                  !expsQuery.error &&
-                  expsQuery.data &&
-                  ListExps(expsQuery.data).map((exp) => (
-                    <SidebarMenuItem key={exp}>
-                      <SidebarMenuButton
-                        isActive={isActive(`/experiments/${exp}`)}
-                      >
-                        <Link to={`/experiments/${exp}`}>
-                          <span>{exp}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-              </SidebarMenuSub>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
-        <Collapsible
-          defaultOpen
-          className="group/collapsible"
-          title="Models"
-          key="models"
-        >
-          <SidebarGroup>
-            <SidebarGroupLabel
-              asChild
-              className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <CollapsibleTrigger>
-                <Package />
-                <span className="ml-2">Models</span>
-                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {!expsQuery.isLoading &&
+                    !expsQuery.error &&
+                    expsQuery.data &&
+                    ListExps(expsQuery.data).map((exp) => (
+                      <Link to={`/experiments/${exp}`}>
+                        <SidebarMenuItem key={exp}>
+                          <SidebarMenuButton
+                            isActive={isActive(`/experiments/${exp}`)}
+                            className="cursor-pointer"
+                          >
+                            <span>{exp}</span>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </Link>
+                    ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+
+          <Collapsible
+            defaultOpen
+            className="group/collapsible"
+            title="Models"
+            key="models"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton>
+                  <Package />
+                  <span className="ml-2">Models</span>
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </SidebarMenuButton>
               </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarMenu>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <SidebarMenuAction>
+                    <Plus />
+                    <span className="sr-only">Add Model Registry</span>
+                  </SidebarMenuAction>
+                </DialogTrigger>
+                <AddModelRegistryDialog />
+              </Dialog>
+              <CollapsibleContent>
                 <SidebarMenuSub>
                   {!registriesQuery.isLoading &&
                     !registriesQuery.error &&
                     registriesQuery.data &&
                     registriesQuery.data.registries.map((reg) => (
-                      <SidebarMenuItem key={reg}>
-                        <SidebarMenuButton
-                          isActive={isActive(`/registry/${reg}`)}
-                        >
-                          <Link to={`/registry/${reg}`}>
+                      <Link to={`/registry/${reg}`}>
+                        <SidebarMenuItem key={reg}>
+                          <SidebarMenuButton
+                            className="cursor-pointer"
+                            isActive={isActive(`/registry/${reg}`)}
+                          >
                             <span>{reg}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </Link>
                     ))}
                 </SidebarMenuSub>
-              </SidebarMenu>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
-        <Collapsible
-          defaultOpen
-          className="group/collapsible"
-          title="Benchmarks"
-          key="benchmarks"
-        >
-          <SidebarGroup>
-            <SidebarGroupLabel
-              asChild
-              className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <CollapsibleTrigger>
-                <Table2 />
-                <span className="ml-2">Benchmarks</span>
-                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+
+          <Collapsible
+            defaultOpen
+            className="group/collapsible"
+            title="Benchmarks"
+            key="benchmarks"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton>
+                  <Table2 />
+                  <span className="ml-2">Benchmarks</span>
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </SidebarMenuButton>
               </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarMenu>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <SidebarMenuAction>
+                    <Plus />
+                    <span className="sr-only">Add Benchmark</span>
+                  </SidebarMenuAction>
+                </DialogTrigger>
+                <AddBenchmarkDialog />
+              </Dialog>
+              <CollapsibleContent>
                 <SidebarMenuSub>
                   {!benchmarksQuery.isLoading &&
                     !benchmarksQuery.error &&
@@ -226,10 +240,10 @@ export function AppSidebar() {
                       </SidebarMenuItem>
                     ))}
                 </SidebarMenuSub>
-              </SidebarMenu>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        </SidebarMenu>
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
