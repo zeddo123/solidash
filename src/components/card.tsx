@@ -55,14 +55,6 @@ export function ListCard({ title, list, isLoading, error }: ListCardProps) {
     toast.error("could not load metrics: " + error);
   }
 
-  const formattedDuration = (duration: number): string => {
-    const sec = duration % 60;
-    const min = Math.floor(duration / 60);
-    return `${min}min${sec > 0 ? ` ${sec}s` : ""}`;
-  };
-
-  const now = new Date();
-
   return (
     <Card className="@container/card">
       <CardHeader>
