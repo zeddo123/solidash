@@ -164,9 +164,9 @@ export type RegistryResponse = {
   details: string;
   name: string;
   lastVer: number;
-  tags: string[];
-  createdAt: Date;
-  entriesInfo: { [version: number]: { createdAt: Date } };
+  tags: { [tag: string]: number[] };
+  createdAt: string;
+  entriesInfo: { [version: string]: { createdAt: string; tags: string[] } };
 };
 
 export type BenchmarksResponse = {
@@ -272,7 +272,7 @@ export async function registries(): Promise<RegistriesResponse> {
 }
 
 export async function registry(id: string): Promise<RegistryResponse> {
-  const url = `${registryURL}/${id}`;
+  const url = `${registryURL}${id}`;
 
   const resp = await makeRequest(url);
 
@@ -290,7 +290,7 @@ export async function benchmarks(): Promise<BenchmarksResponse> {
 }
 
 export async function benchmark(id: string): Promise<BenchmarkResponse> {
-  const url = `${benchmarkURL}/${id}`;
+  const url = `${benchmarkURL}${id}`;
 
   const resp = await makeRequest(url);
 

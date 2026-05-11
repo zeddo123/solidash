@@ -139,7 +139,7 @@ export function AppSidebar() {
                     !expsQuery.error &&
                     expsQuery.data &&
                     ListExps(expsQuery.data).map((exp) => (
-                      <Link to={`/experiments/${exp}`}>
+                      <Link to={`/experiments/${exp}`} key={exp}>
                         <SidebarMenuItem key={exp}>
                           <SidebarMenuButton
                             isActive={isActive(`/experiments/${exp}`)}
@@ -184,7 +184,7 @@ export function AppSidebar() {
                     !registriesQuery.error &&
                     registriesQuery.data &&
                     registriesQuery.data.registries.map((reg) => (
-                      <Link to={`/registry/${reg}`}>
+                      <Link to={`/registry/${reg}`} key={reg}>
                         <SidebarMenuItem key={reg}>
                           <SidebarMenuButton
                             className="cursor-pointer"
