@@ -43,6 +43,37 @@ export function MetricsCard({
   );
 }
 
+interface TimeAgoCardProps {
+  title: string;
+  data?: string;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export function TimeAgoCard({
+  title,
+  data,
+  isLoading,
+  error,
+}: TimeAgoCardProps) {
+  return (
+    <Card className="@container/card">
+      <CardHeader>
+        <CardDescription>{title}</CardDescription>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>something went wrong</div>
+        ) : (
+          <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            <TimeAgo live={false} date={data!} />
+          </CardTitle>
+        )}
+      </CardHeader>
+    </Card>
+  );
+}
+
 interface ListCardProps {
   title: string;
   list: RunInfo[] | undefined;
@@ -85,7 +116,7 @@ export function ListCard({ title, list, isLoading, error }: ListCardProps) {
                             />
                             {" " + item.runId}
                           </div>
-                          <TimeAgo date={item.createdAt} />
+                          <TimeAgo live={false} date={item.createdAt} />
                         </div>
                         <Separator className="my-2" />
                       </React.Fragment>

@@ -6,6 +6,7 @@ import { Overview } from "@/components/overview";
 import Experiment from "@/components/experiment";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "@/components/login";
+import { Registry } from "./components/registry";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route>
               <Route index element={<Overview />}></Route>
               <Route path="/experiments/:id" element={<Experiment />}></Route>
+              <Route path="/registry/:id" element={<Registry />}></Route>
             </Route>
           </Route>
         </Route>
