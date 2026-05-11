@@ -10,6 +10,7 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { type RunInfo } from "@/api/mlsolid";
+import TimeAgo from "react-timeago";
 
 interface MetricsCardProps {
   title: string;
@@ -54,6 +55,14 @@ export function ListCard({ title, list, isLoading, error }: ListCardProps) {
     toast.error("could not load metrics: " + error);
   }
 
+  const formattedDuration = (duration: number): string => {
+    const sec = duration % 60;
+    const min = Math.floor(duration / 60);
+    return `${min}min${sec > 0 ? ` ${sec}s` : ""}`;
+  };
+
+  const now = new Date();
+
   return (
     <Card className="@container/card">
       <CardHeader>
@@ -70,17 +79,21 @@ export function ListCard({ title, list, isLoading, error }: ListCardProps) {
                   {list &&
                     list.map((item, index) => (
                       <React.Fragment key={index}>
-                        <div className="text-sm">
-                          <span
-                            style={{
-                              display: "inline-block",
-                              width: "12px",
-                              height: "12px",
-                              borderRadius: "50%",
-                              backgroundColor: item.color,
-                            }}
-                          />
-                          {" " + item.runId}
+                        <div className="text-sm flex justify-between">
+                          <div>
+                            <span
+                              style={{
+                                display: "inline-block",
+                                width: "12px",
+                                height: "12px",
+                                borderRadius: "50%",
+                                backgroundColor: item.color,
+                              }}
+                              className="flex justify-between"
+                            />
+                            {" " + item.runId}
+                          </div>
+                          <TimeAgo date={item.createdAt} />
                         </div>
                         <Separator className="my-2" />
                       </React.Fragment>
