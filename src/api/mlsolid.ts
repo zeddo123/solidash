@@ -166,7 +166,16 @@ export type RegistryResponse = {
   lastVer: number;
   tags: { [tag: string]: number[] };
   createdAt: string;
-  entriesInfo: { [version: string]: { createdAt: string; tags: string[] } };
+  entriesInfo: {
+    [version: string]: RegistryEntry;
+  };
+};
+
+export type RegistryEntry = {
+  createdAt: string;
+  tags: string[];
+  run: string;
+  name: string;
 };
 
 export type BenchmarksResponse = {

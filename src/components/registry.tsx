@@ -4,15 +4,7 @@ import { useParams } from "react-router";
 import { toast } from "sonner";
 import Header from "./header";
 import CardsRegistry from "./cards-registry";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { Badge } from "./ui/badge";
+import { ModelEntry } from "./model-entry";
 
 export function Registry() {
   const { id } = useParams();
@@ -36,25 +28,6 @@ export function Registry() {
       }
     },
   });
-
-  function formatDateIntl(date: Date): string {
-    const datePart = new Intl.DateTimeFormat(navigator.language, {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(date);
-
-    const timePart = date.toLocaleTimeString(navigator.language, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    });
-
-    return `${datePart} ${timePart}`;
-  }
-
-  console.log(data);
 
   let tags: string[] = [];
   if (data?.tags) {
@@ -87,38 +60,12 @@ export function Registry() {
                 .reverse()
                 .map((key) => (
                   <div key={key}>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>v{key}</CardTitle>
-                        <CardDescription>
-                          Added{" "}
-                          {formatDateIntl(
-                            new Date(data.entriesInfo[key].createdAt),
-                          )}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        Name: coming soon Url: coming soon
-                      </CardContent>
-                      <CardFooter>
-                        <div className="flex w-full flex-wrap justify-right gap-2">
-                          {data.entriesInfo[key].tags.map((tag) => (
-                            <Badge
-                              variant={
-                                !tags.includes(tag)
-                                  ? "secondary"
-                                  : String(data.tags[tag][0]) == key
-                                    ? "default"
-                                    : "outline"
-                              }
-                              key={tag}
-                            >
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardFooter>
-                    </Card>
+                    <ModelEntry
+                      version={key}
+                      entry={data.entriesInfo[key]}
+                      tags={tags}
+                      registryTagMappings={data.tags}
+                    />
                   </div>
                 ))}
           </div>
