@@ -1,5 +1,12 @@
+import createClient from "openapi-fetch";
+import type { paths } from "./generated";
+
 console.log("MLSOLID", import.meta.env.VITE_MLSOLID);
 const Mlsolid: string = import.meta.env.VITE_MLSOLID;
+export const Client = createClient<paths>({
+  baseUrl: Mlsolid,
+  credentials: "include",
+});
 
 const expsURL: string = `${Mlsolid}/v1/exps/`;
 const authURL: string = `${Mlsolid}/authorized/`;

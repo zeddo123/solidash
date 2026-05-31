@@ -6,7 +6,8 @@ import { Overview } from "@/components/overview";
 import Experiment from "@/components/experiment";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "@/components/login";
-import { Registry } from "./components/registry";
+import { Registry } from "@/components/registry";
+import Benchmark from "@/components/benchmark";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
               <Route index element={<Overview />}></Route>
               <Route path="/experiments/:id" element={<Experiment />}></Route>
               <Route path="/registry/:id" element={<Registry />}></Route>
+              <Route path="/bench/:id" element={<Benchmark />}></Route>
             </Route>
           </Route>
         </Route>

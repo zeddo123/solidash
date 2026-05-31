@@ -38,7 +38,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { AddModelRegistryDialog } from "./add-model-registry";
-import { AddBenchmarkDialog } from "./add-benchmark";
+import { AddBenchmarkDialog } from "./create-benchmark-form/add-benchmark";
 
 export function AppSidebar() {
   const navigate = useNavigate();
@@ -119,7 +119,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
 
           <Collapsible
-            defaultOpen
+            defaultOpen={false}
             className="group/collapsible"
             title="experiments"
             key="experiments"
@@ -156,7 +156,7 @@ export function AppSidebar() {
           </Collapsible>
 
           <Collapsible
-            defaultOpen
+            defaultOpen={false}
             className="group/collapsible"
             title="Models"
             key="models"
@@ -201,7 +201,7 @@ export function AppSidebar() {
           </Collapsible>
 
           <Collapsible
-            defaultOpen
+            defaultOpen={false}
             className="group/collapsible"
             title="Benchmarks"
             key="benchmarks"
