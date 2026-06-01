@@ -40,6 +40,7 @@ import { useEffect } from "react";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { AddModelRegistryDialog } from "./add-model-registry";
 import { AddBenchmarkDialog } from "./create-benchmark-form/add-benchmark";
+import { CreateNewAPIKeyDialog } from "./create-api-key-dialog/create-api-key-dialog";
 
 export function AppSidebar() {
   const navigate = useNavigate();
@@ -129,6 +130,15 @@ export function AppSidebar() {
                 <span className="ml-2">Keys</span>
               </SidebarMenuButton>
             </Link>
+            <Dialog>
+              <DialogTrigger asChild>
+                <SidebarMenuAction>
+                  <Plus />
+                  <span className="sr-only">Create new API Key</span>
+                </SidebarMenuAction>
+              </DialogTrigger>
+              <CreateNewAPIKeyDialog />
+            </Dialog>
           </SidebarMenuItem>
 
           <Collapsible
