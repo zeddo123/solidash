@@ -32,6 +32,7 @@ import {
   LayoutGrid,
   Table2,
   Plus,
+  KeySquare,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
@@ -114,6 +115,18 @@ export function AppSidebar() {
               >
                 <LayoutGrid />
                 <span className="ml-2">Overview</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <Link to="/keys">
+              <SidebarMenuButton
+                isActive={isActive("/keys")}
+                className="cursor-pointer"
+              >
+                <KeySquare></KeySquare>
+                <span className="ml-2">Keys</span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
