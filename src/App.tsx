@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Login from "@/components/login";
 import { Registry } from "@/components/registry";
 import Benchmark from "@/components/benchmark";
+import Keys from "./components/keys";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           >
             <Route>
               <Route index element={<Overview />}></Route>
+              <Route path="/keys" element={<Keys />}></Route>
               <Route path="/experiments/:id" element={<Experiment />}></Route>
               <Route path="/registry/:id" element={<Registry />}></Route>
               <Route path="/bench/:id" element={<Benchmark />}></Route>

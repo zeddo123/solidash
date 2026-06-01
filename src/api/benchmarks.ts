@@ -26,3 +26,11 @@ export async function CreateBenchmark(
     },
   });
 }
+
+export async function GetBenchmark(client: typeof Client, benchId: string) {
+  return await client.GET("/v1/benchmark/{id}", {
+    params: {
+      path: { id: benchId },
+    },
+  });
+}
