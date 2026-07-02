@@ -21,9 +21,10 @@ interface ChartProps {
   expId: string;
   metricId: string;
   runs: RunInfo[];
+  selectedRun?: string;
 }
 
-function Chart({ expId, metricId, runs }: ChartProps) {
+function Chart({ expId, metricId, runs, selectedRun }: ChartProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["metric", expId, metricId],
     staleTime: 1000 * 30,
@@ -33,7 +34,24 @@ function Chart({ expId, metricId, runs }: ChartProps) {
   });
 
   const chartRef = useRef<HTMLDivElement>(null);
-  const memMetric = useMemo(() => data?.metric, [data]);
+  const memMetric = useMemo(() => {
+    if (!data?.metric) {
+      return data?.metric;
+    }
+
+    if (!selectedRun) {
+      return data.metric;
+    }
+
+    return { [selectedRun]: data.metric[selectedRun] ?? [] };
+  }, [data, selectedRun]);
+  const memRuns = useMemo(() => {
+    if (!selectedRun) {
+      return runs;
+    }
+
+    return runs.filter((run) => run.runId === selectedRun);
+  }, [runs, selectedRun]);
   const exportFunc = useCallback(async () => {
     if (chartRef.current == null) {
       return;
@@ -78,7 +96,7 @@ function Chart({ expId, metricId, runs }: ChartProps) {
               <SingleNumericChart
                 metric={memMetric!}
                 name={metricId}
-                runs={runs}
+                runs={memRuns}
               />
             ) : data.kind == "metric/single" ? (
               <TableChart name={metricId} metric={memMetric!} />
@@ -86,7 +104,7 @@ function Chart({ expId, metricId, runs }: ChartProps) {
               <ContinuousChart
                 metric={memMetric!}
                 name={metricId}
-                runs={runs}
+                runs={memRuns}
               />
             ) : data.kind == "metric/multival" ? (
               <TableChart name={metricId} metric={memMetric!} />

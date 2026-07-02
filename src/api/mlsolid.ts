@@ -97,6 +97,13 @@ export function GetRunColor(
   })?.color;
 }
 
+export function GetRunInfo(
+  runs: RunInfo[] | undefined,
+  runId: string,
+): RunInfo | undefined {
+  return runs?.find((info) => info.runId == runId);
+}
+
 export type Metrics = {
   details: string;
   metrics: string[];
@@ -161,6 +168,13 @@ export type Artifacts = {
   details: string;
   artifacts: { [runId: string]: string[] };
 };
+
+export function RunArtifacts(
+  resp: Artifacts | undefined,
+  runId: string,
+): string[] {
+  return resp?.artifacts[runId] ?? [];
+}
 
 export type RegistriesResponse = {
   details: string;
