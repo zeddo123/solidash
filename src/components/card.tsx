@@ -132,3 +132,54 @@ export function ListCard({ title, list, isLoading, error }: ListCardProps) {
     </Card>
   );
 }
+
+interface StringListCardProps {
+  title: string;
+  list: string[] | undefined;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export function StringListCard({
+  title,
+  list,
+  isLoading,
+  error,
+}: StringListCardProps) {
+  if (error) {
+    toast.error("could not load artifacts: " + error);
+  }
+
+  return (
+    <Card className="@container/card">
+      <CardHeader>
+        <CardDescription>{title}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : !error && list ? (
+          <ScrollArea className="h-32 w-full rounded-md">
+            <div>
+              <ul>
+                {list.length === 0 && (
+                  <div className="text-sm text-muted-foreground">
+                    No artifacts
+                  </div>
+                )}
+                {list.map((item, index) => (
+                  <React.Fragment key={index}>
+                    <div className="text-sm truncate">{item}</div>
+                    <Separator className="my-2" />
+                  </React.Fragment>
+                ))}
+              </ul>
+            </div>
+          </ScrollArea>
+        ) : (
+          <></>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
