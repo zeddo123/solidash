@@ -23,7 +23,11 @@ export default function CardsRegistry({
       ></MetricsCard>
       <TimeAgoCard
         title="Last update"
-        data={data && data.entriesInfo[data.lastVer].createdAt}
+        data={
+          data &&
+          data.entriesInfo[data.lastVer] &&
+          data.entriesInfo[data.lastVer].createdAt
+        }
         isLoading={isLoading}
         error={error}
       />

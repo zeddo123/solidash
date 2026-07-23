@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -20,8 +21,9 @@ import { ChevronDown } from "lucide-react";
 interface RunBreadcrumbProps {
   expId: string;
   runs: RunInfo[] | undefined;
-  selectedRun: string | undefined;
-  onSelectRun: (runId: string | undefined) => void;
+  selectedRuns: string[];
+  onToggleRun: (runId: string) => void;
+  onClear: () => void;
 }
 
 function RunDot({ color }: { color: string }) {
@@ -36,10 +38,21 @@ function RunDot({ color }: { color: string }) {
 function RunBreadcrumb({
   expId,
   runs,
-  selectedRun,
-  onSelectRun,
+  selectedRuns,
+  onToggleRun,
+  onClear,
 }: RunBreadcrumbProps) {
-  const selectedRunInfo = runs?.find((run) => run.runId === selectedRun);
+  const selectedRunInfo =
+    selectedRuns.length === 1
+      ? runs?.find((run) => run.runId === selectedRuns[0])
+      : undefined;
+
+  const triggerLabel =
+    selectedRuns.length === 0
+      ? "All runs"
+      : selectedRuns.length === 1
+        ? selectedRuns[0]
+        : `${selectedRuns.length} runs`;
 
   return (
     <Breadcrumb className="px-4 lg:px-6">
@@ -51,7 +64,7 @@ function RunBreadcrumb({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          {selectedRun ? (
+          {selectedRuns.length > 0 ? (
             <BreadcrumbLink asChild>
               <Link to={`/experiments/${expId}`}>{expId}</Link>
             </BreadcrumbLink>
@@ -64,22 +77,24 @@ function RunBreadcrumb({
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1.5 font-normal text-foreground outline-hidden hover:text-foreground/80">
               {selectedRunInfo && <RunDot color={selectedRunInfo.color} />}
-              {selectedRun ?? "All runs"}
+              {triggerLabel}
               <ChevronDown className="size-3.5 text-muted-foreground" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              <DropdownMenuItem onSelect={() => onSelectRun(undefined)}>
+              <DropdownMenuItem onSelect={() => onClear()}>
                 All runs
               </DropdownMenuItem>
               {runs && runs.length > 0 && <DropdownMenuSeparator />}
               {runs?.map((run) => (
-                <DropdownMenuItem
+                <DropdownMenuCheckboxItem
                   key={run.runId}
-                  onSelect={() => onSelectRun(run.runId)}
+                  checked={selectedRuns.includes(run.runId)}
+                  onSelect={(e) => e.preventDefault()}
+                  onCheckedChange={() => onToggleRun(run.runId)}
                 >
                   <RunDot color={run.color} />
                   {run.runId}
-                </DropdownMenuItem>
+                </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>

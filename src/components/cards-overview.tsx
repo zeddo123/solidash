@@ -1,5 +1,6 @@
 import { experiments, TotalExperiments, TotalRuns } from "@/api/exps";
 import { registries } from "@/api/model_registries";
+import { benchmarks } from "@/api/benchmarks";
 import { useQuery } from "@tanstack/react-query";
 import { MetricsCard } from "./card";
 
@@ -18,6 +19,13 @@ export function CardsOverview() {
     },
   });
 
+  const benchmarksQuery = useQuery({
+    queryKey: ["benchmarks"],
+    queryFn: async () => {
+      return await benchmarks();
+    },
+  });
+
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <MetricsCard
@@ -33,19 +41,19 @@ export function CardsOverview() {
         error={expsQuery.error}
       ></MetricsCard>
       <MetricsCard
-        title="Artifacts"
-        data={
-          expsQuery.data &&
-          TotalRuns(expsQuery.data) + TotalExperiments(expsQuery.data)
-        }
-        isLoading={expsQuery.isLoading}
-        error={expsQuery.error}
-      ></MetricsCard>
-      <MetricsCard
         title="Models"
         data={registriesQuery.data && registriesQuery.data.registries.length}
         isLoading={registriesQuery.isLoading}
         error={registriesQuery.error}
+      ></MetricsCard>
+      <MetricsCard
+        title="Benchmarks"
+        data={
+          benchmarksQuery.data &&
+          Object.keys(benchmarksQuery.data.benchmarks).length
+        }
+        isLoading={benchmarksQuery.isLoading}
+        error={benchmarksQuery.error}
       ></MetricsCard>
     </div>
   );

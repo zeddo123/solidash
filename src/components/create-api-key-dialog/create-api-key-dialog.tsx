@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../ui/button";
 import {
   DialogContent,
@@ -15,6 +16,7 @@ import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import * as z from "zod";
+import { Check, Copy } from "lucide-react";
 
 const formSchema = z.object({
   label: z.string().min(2, "Label must be at least 2 characters."),
@@ -28,6 +30,7 @@ export function CreateNewAPIKeyDialog({
   onSuccess?: () => void;
 }) {
   const queryClient = useQueryClient();
+  const [createdKey, setCreatedKey] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: { label: "" } as FormValues,
@@ -44,12 +47,42 @@ export function CreateNewAPIKeyDialog({
         return;
       }
 
-      toast.success(data.details);
       queryClient.invalidateQueries({ queryKey: ["api-keys"] });
       form.reset();
-      onSuccess?.();
+      setCreatedKey(data.key);
     },
   });
+
+  if (createdKey) {
+    return (
+      <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+        <DialogHeader>
+          <DialogTitle>New API Key</DialogTitle>
+          <DialogDescription>
+            Your new API key has been created.
+          </DialogDescription>
+        </DialogHeader>
+        <FieldGroup className="mt-5">
+          <Field>
+            <FieldLabel htmlFor="created-api-key">API Key</FieldLabel>
+            <CopyableKeyInput id="created-api-key" value={createdKey} />
+          </Field>
+        </FieldGroup>
+        <DialogFooter className="mt-5">
+          <DialogClose asChild>
+            <Button
+              onClick={() => {
+                setCreatedKey(null);
+                onSuccess?.();
+              }}
+            >
+              Done
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    );
+  }
 
   return (
     <DialogContent className="sm:max-w-sm" showCloseButton={false}>
@@ -101,5 +134,30 @@ export function CreateNewAPIKeyDialog({
         </DialogFooter>
       </form>
     </DialogContent>
+  );
+}
+
+function CopyableKeyInput({ id, value }: { id: string; value: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="flex gap-2">
+      <Input id={id} value={value} readOnly className="font-mono" />
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        onClick={handleCopy}
+        aria-label="Copy API key"
+      >
+        {copied ? <Check /> : <Copy />}
+      </Button>
+    </div>
   );
 }
