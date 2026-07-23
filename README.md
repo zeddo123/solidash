@@ -2,8 +2,11 @@
 This is a beautifull dashboard interface for [mlsolid](https://github.com/zeddo123/mlsolid), an MLOps platform. This
 project aims to be a visualisation platform as well as UI to interface with mlsolid's service (such as creating Model registries, downloading artifacts, etc)
 
+<img width="2490" height="1504" alt="Screenshot From 2026-07-23 03-47-09" src="https://github.com/user-attachments/assets/b0b82d4d-e4ef-43b1-8786-994f4f5e8757" />
+
 **Experiment Runs**
-<img width="2560" height="1438" alt="Screenshot From 2026-05-07 16-08-41" src="https://github.com/user-attachments/assets/48b264c4-0eac-4d12-9e58-8a60ea2fcdc1" />
+<img width="2490" height="1504" alt="Screenshot From 2026-07-23 03-46-53" src="https://github.com/user-attachments/assets/973a3102-0a41-4552-9d76-cb3a0dbd3056" />
+
 **Model Registries**
 <img width="1912" height="965" alt="image" src="https://github.com/user-attachments/assets/8b577ea0-c07c-4b15-9a8d-398a8c2a34d0" />
 
