@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import ContinuousChart from "@/components/continuous-chart";
 import { useCallback, useMemo, useRef } from "react";
 import { toPng } from "html-to-image";
@@ -22,10 +23,14 @@ interface ChartProps {
   expId: string;
   metricId: string;
   runs: RunInfo[];
-  selectedRun?: string;
+  selectedRuns: string[];
 }
 
-function Chart({ expId, metricId, runs, selectedRun }: ChartProps) {
+function formatStat(n: number): string {
+  return Number.isInteger(n) ? String(n) : n.toFixed(3);
+}
+
+function Chart({ expId, metricId, runs, selectedRuns }: ChartProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["metric", expId, metricId],
     staleTime: 1000 * 30,
@@ -40,19 +45,60 @@ function Chart({ expId, metricId, runs, selectedRun }: ChartProps) {
       return data?.metric;
     }
 
-    if (!selectedRun) {
+    if (selectedRuns.length === 0) {
       return data.metric;
     }
 
-    return { [selectedRun]: data.metric[selectedRun] ?? [] };
-  }, [data, selectedRun]);
+    return Object.fromEntries(
+      selectedRuns.map((runId) => [runId, data.metric[runId] ?? []]),
+    );
+  }, [data, selectedRuns]);
   const memRuns = useMemo(() => {
-    if (!selectedRun) {
+    if (selectedRuns.length === 0) {
       return runs;
     }
 
-    return runs.filter((run) => run.runId === selectedRun);
-  }, [runs, selectedRun]);
+    return runs.filter((run) => selectedRuns.includes(run.runId));
+  }, [runs, selectedRuns]);
+  const stats = useMemo(() => {
+    if (!memMetric) {
+      return null;
+    }
+
+    let min: number | null = null;
+    let max: number | null = null;
+    let minRun = "";
+    let maxRun = "";
+    let sum = 0;
+    let count = 0;
+
+    for (const [runId, values] of Object.entries(memMetric)) {
+      for (const v of values) {
+        if (typeof v !== "number") {
+          continue;
+        }
+
+        if (min === null || v < min) {
+          min = v;
+          minRun = runId;
+        }
+
+        if (max === null || v > max) {
+          max = v;
+          maxRun = runId;
+        }
+
+        sum += v;
+        count += 1;
+      }
+    }
+
+    if (min === null || max === null) {
+      return null;
+    }
+
+    return { min, max, minRun, maxRun, avg: sum / count };
+  }, [memMetric]);
   const exportFunc = useCallback(async () => {
     if (chartRef.current == null) {
       return;
@@ -75,6 +121,17 @@ function Chart({ expId, metricId, runs, selectedRun }: ChartProps) {
       <CardHeader>
         <CardTitle>{metricId}</CardTitle>
         <CardDescription>{data?.kind}</CardDescription>
+        {stats && (
+          <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+            <span>
+              Min: {formatStat(stats.min)} ({stats.minRun})
+            </span>
+            <span>
+              Max: {formatStat(stats.max)} ({stats.maxRun})
+            </span>
+            <span>Avg: {formatStat(stats.avg)}</span>
+          </div>
+        )}
         <CardAction>
           <Button
             variant="outline"
@@ -88,7 +145,7 @@ function Chart({ expId, metricId, runs, selectedRun }: ChartProps) {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div>Loading...</div>
+          <Skeleton className="h-full w-full" />
         ) : error ? (
           <div>someting went wrong</div>
         ) : data ? (

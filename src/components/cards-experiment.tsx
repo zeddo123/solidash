@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   ExperimentMetricsCount,
   ExperimentRunsCount,
@@ -13,7 +14,7 @@ interface CardsExperimentProps {
   data: Experiment | undefined;
   isLoading: boolean;
   error: Error | null;
-  selectedRun?: string;
+  selectedRuns: string[];
   artifacts?: Artifacts;
   artifactsLoading?: boolean;
   artifactsError?: Error | null;
@@ -24,41 +25,49 @@ export default function CardsExperiment({
   isLoading,
   error,
   id,
-  selectedRun,
+  selectedRuns,
   artifacts,
   artifactsLoading = false,
   artifactsError = null,
 }: CardsExperimentProps) {
-  if (selectedRun) {
-    const runInfo = GetRunInfo(data?.runs, selectedRun);
+  if (selectedRuns.length > 0) {
+    const multiple = selectedRuns.length > 1;
 
     return (
       <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
         <MetricsCard
-          title="Run"
-          data={selectedRun}
+          title={multiple ? "Runs selected" : "Run"}
+          data={multiple ? selectedRuns.length : selectedRuns[0]}
           isLoading={isLoading}
           error={error}
         ></MetricsCard>
-        <TimeAgoCard
-          title="Created"
-          data={runInfo?.createdAt}
-          isLoading={isLoading}
-          error={error}
-        ></TimeAgoCard>
         <MetricsCard
           title="Metrics"
           data={ExperimentMetricsCount(data)}
           isLoading={isLoading}
           error={error}
         ></MetricsCard>
-        <StringListCard
-          title="Artifacts"
-          list={artifacts ? RunArtifacts(artifacts, selectedRun) : undefined}
-          isLoading={artifactsLoading}
-          error={artifactsError}
-          linkBuilder={(aid) => artifactURL(selectedRun, aid)}
-        ></StringListCard>
+        {selectedRuns.map((runId) => {
+          const runInfo = GetRunInfo(data?.runs, runId);
+
+          return (
+            <Fragment key={runId}>
+              <TimeAgoCard
+                title={multiple ? `${runId} created` : "Created"}
+                data={runInfo?.createdAt}
+                isLoading={isLoading}
+                error={error}
+              ></TimeAgoCard>
+              <StringListCard
+                title={multiple ? `${runId} artifacts` : "Artifacts"}
+                list={artifacts ? RunArtifacts(artifacts, runId) : undefined}
+                isLoading={artifactsLoading}
+                error={artifactsError}
+                linkBuilder={(aid) => artifactURL(runId, aid)}
+              ></StringListCard>
+            </Fragment>
+          );
+        })}
       </div>
     );
   }
