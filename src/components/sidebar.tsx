@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router";
 import {
   Sidebar,
@@ -12,14 +12,10 @@ import {
   SidebarMenuSub,
 } from "@/components/ui/sidebar";
 import logo from "@/assets/gopher-out.svg";
-import {
-  benchmark,
-  benchmarks,
-  experiments,
-  isAuthorized,
-  ListExps,
-  registries,
-} from "@/api/mlsolid";
+import { isAuthorized, logout } from "@/api/mlsolid";
+import { experiments, ListExps } from "@/api/exps";
+import { registries } from "@/api/model_registries";
+import { benchmarks } from "@/api/benchmarks";
 import {
   Collapsible,
   CollapsibleContent,
@@ -33,10 +29,11 @@ import {
   Table2,
   Plus,
   KeySquare,
+  LogOut,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogTrigger } from "./ui/dialog";
 import { AddModelRegistryDialog } from "./add-model-registry";
 import { AddBenchmarkDialog } from "./create-benchmark-form/add-benchmark";
@@ -44,6 +41,9 @@ import { CreateNewAPIKeyDialog } from "./create-api-key-dialog/create-api-key-di
 
 export function AppSidebar() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
+  const [registryDialogOpen, setRegistryDialogOpen] = useState(false);
 
   const expsQuery = useQuery({
     queryKey: ["exps"],
@@ -130,14 +130,16 @@ export function AppSidebar() {
                 <span className="ml-2">Keys</span>
               </SidebarMenuButton>
             </Link>
-            <Dialog>
+            <Dialog open={apiKeyDialogOpen} onOpenChange={setApiKeyDialogOpen}>
               <DialogTrigger asChild>
                 <SidebarMenuAction>
                   <Plus />
                   <span className="sr-only">Create new API Key</span>
                 </SidebarMenuAction>
               </DialogTrigger>
-              <CreateNewAPIKeyDialog />
+              <CreateNewAPIKeyDialog
+                onSuccess={() => setApiKeyDialogOpen(false)}
+              />
             </Dialog>
           </SidebarMenuItem>
 
@@ -192,14 +194,19 @@ export function AppSidebar() {
                   <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
-              <Dialog>
+              <Dialog
+                open={registryDialogOpen}
+                onOpenChange={setRegistryDialogOpen}
+              >
                 <DialogTrigger asChild>
                   <SidebarMenuAction>
                     <Plus />
                     <span className="sr-only">Add Model Registry</span>
                   </SidebarMenuAction>
                 </DialogTrigger>
-                <AddModelRegistryDialog />
+                <AddModelRegistryDialog
+                  onSuccess={() => setRegistryDialogOpen(false)}
+                />
               </Dialog>
               <CollapsibleContent>
                 <SidebarMenuSub>
@@ -251,43 +258,40 @@ export function AppSidebar() {
                   {!benchmarksQuery.isLoading &&
                     !benchmarksQuery.error &&
                     benchmarksQuery.data &&
-                    benchmarksQuery.data.benchmarks.map((bench) => (
-                      <SidebarMenuItem key={bench}>
-                        <SidebarMenuButton
-                          isActive={isActive(`/bench/${bench}`)}
-                        >
-                          <Link to={`/bench/${bench}`}>
-                            <BenchmarkElem benchId={bench} />
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
+                    Object.entries(benchmarksQuery.data.benchmarks).map(
+                      ([id, name]) => (
+                        <SidebarMenuItem key={id}>
+                          <SidebarMenuButton isActive={isActive(`/bench/${id}`)}>
+                            <Link to={`/bench/${id}`}>
+                              <span>{name}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ),
+                    )}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
           </Collapsible>
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              className="cursor-pointer"
+              onClick={async () => {
+                await logout();
+                queryClient.clear();
+                navigate("/login");
+              }}
+            >
+              <LogOut />
+              <span className="ml-2">Logout</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
-}
-
-function BenchmarkElem({ benchId }: { benchId: string }) {
-  const benchmarkQuery = useQuery({
-    queryKey: ["benchmark", benchId],
-    queryFn: async () => {
-      return await benchmark(benchId);
-    },
-  });
-
-  if (benchmarkQuery.error) {
-    toast("could not fetch benchmark: " + benchmarkQuery.error);
-  }
-
-  if (benchmarkQuery.isLoading || benchmarkQuery.error) {
-    return <span>{benchId}</span>;
-  }
-
-  return <span>{benchmarkQuery.data?.benchmark.name}</span>;
 }

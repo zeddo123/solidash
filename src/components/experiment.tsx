@@ -1,4 +1,4 @@
-import { artifacts, experiment } from "@/api/mlsolid";
+import { artifacts, experiment } from "@/api/exps";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "react-router";
 import CardsExperiment from "./cards-experiment";

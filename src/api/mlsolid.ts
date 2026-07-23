@@ -1,20 +1,11 @@
 import createClient from "openapi-fetch";
-import type { paths } from "./generated";
+import type { components, paths } from "./generated";
 
-console.log("MLSOLID", import.meta.env.VITE_MLSOLID);
 const Mlsolid: string = import.meta.env.VITE_MLSOLID;
 export const Client = createClient<paths>({
   baseUrl: Mlsolid,
   credentials: "include",
 });
-
-const expsURL: string = `${Mlsolid}/v1/exps/`;
-const authURL: string = `${Mlsolid}/authorized/`;
-const expURL: string = `${Mlsolid}/v1/exp/`;
-const registriesURL: string = `${Mlsolid}/v1/registries/`;
-const registryURL: string = `${Mlsolid}/v1/registry/`;
-const benchmarksURL: string = `${Mlsolid}/v1/benchmarks/`;
-const benchmarkURL: string = `${Mlsolid}/v1/benchmark/`;
 
 export type MetricKind =
   | "metric/continuous"
@@ -23,68 +14,15 @@ export type MetricKind =
   | "metric/single"
   | "metric/complex";
 
-export type ExpsResponse = {
+export type RunInfo = components["schemas"]["RunInfo"];
+
+export type MetricValues = { [runId: string]: number[] | string[] };
+
+export type Metric = {
   details: string;
-  exps: {
-    [key: string]: {
-      runs: string[];
-      runs_count: number;
-    };
-  };
+  kind: MetricKind;
+  metric: MetricValues;
 };
-
-export function ListExps(resp: ExpsResponse): string[] {
-  return Object.keys(resp.exps);
-}
-
-export function TotalExperiments(resp: ExpsResponse): number {
-  return Object.keys(resp.exps).length;
-}
-
-export function TotalRuns(resp: ExpsResponse): number {
-  return Object.values(resp.exps).reduce(
-    (sum, { runs_count }) => sum + runs_count,
-    0,
-  );
-}
-
-export type Experiment = {
-  details: string;
-  runs?: RunInfo[];
-  metrics?: string[];
-};
-
-export type RunInfo = {
-  runId: string;
-  createdAt: string;
-  color: string;
-};
-
-export function ExperimentRunsCount(resp: Experiment | undefined): number {
-  if (!resp || !resp.runs) {
-    return 0;
-  }
-
-  return resp.runs.length;
-}
-
-export function ExperimentMetricsCount(resp: Experiment | undefined): number {
-  if (!resp || !resp.metrics) {
-    return 0;
-  }
-
-  return resp.metrics.length;
-}
-
-export function ExperimentRuns(resp: Experiment | undefined): string[] {
-  if (!resp || !resp.runs) {
-    return [];
-  }
-
-  return resp.runs.map((info) => {
-    return info.runId;
-  });
-}
 
 export function GetRunColor(
   runs: RunInfo[],
@@ -103,19 +41,6 @@ export function GetRunInfo(
 ): RunInfo | undefined {
   return runs?.find((info) => info.runId == runId);
 }
-
-export type Metrics = {
-  details: string;
-  metrics: string[];
-};
-
-export type MetricValues = { [runId: string]: number[] | string[] };
-
-export type Metric = {
-  details: string;
-  kind: MetricKind;
-  metric: MetricValues;
-};
 
 export function MaxLength(metric: Metric["metric"]): number {
   const values = Object.values(metric);
@@ -164,177 +89,37 @@ export function Range(metric: MetricValues): [number, number] {
   return [range[0], range[1]];
 }
 
-export type Artifacts = {
-  details: string;
-  artifacts: { [runId: string]: string[] };
-};
-
-export function RunArtifacts(
-  resp: Artifacts | undefined,
-  runId: string,
-): string[] {
-  return resp?.artifacts[runId] ?? [];
-}
-
-export type RegistriesResponse = {
-  details: string;
-  registries: string[];
-};
-
-export type RegistryResponse = {
-  details: string;
-  name: string;
-  lastVer: number;
-  tags: { [tag: string]: number[] };
-  createdAt: string;
-  entriesInfo: {
-    [version: string]: RegistryEntry;
-  };
-};
-
-export type RegistryEntry = {
-  createdAt: string;
-  tags: string[];
-  run: string;
-  name: string;
-};
-
-export type BenchmarksResponse = {
-  details: string;
-  benchmarks: string[];
-};
-
-export type BenchmarkResponse = {
-  details: string;
-  benchmark: Benchmark;
-};
-
-export type Benchmark = {
-  id: string;
-  name: string;
-  paused: boolean;
-  eagerStart: boolean;
-  autoTag: boolean;
-  tag: string;
-  decisionMetric: string;
-  registries: string[];
-  metrics: { name: string; descSort: boolean }[];
-  datasetName: string;
-  datasetUrl: string;
-  fromS3: boolean;
-  timestamp: Date;
-};
-
-export async function experiments(): Promise<ExpsResponse> {
-  const resp = await makeRequest(expsURL);
-
-  if (!resp.ok) {
-    throw new Error(`HTTP error ${resp.status}`);
-  }
-
-  const data = resp.json();
-
-  return data as Promise<ExpsResponse>;
-}
-
-export async function experiment(expId: string): Promise<Experiment> {
-  const url = `${expURL}${expId}`;
-
-  const resp = await makeRequest(url);
-
-  if (!resp.ok) {
-    throw new Error(`HTTP error ${resp.status}`);
-  }
-
-  const data = resp.json();
-
-  return data as Promise<Experiment>;
-}
-
-export async function metrics(expId: string): Promise<Metrics> {
-  const url = `${expURL}${expId}/metrics/`;
-
-  const resp = await makeRequest(url);
-
-  if (!resp.ok) {
-    throw new Error(`HTTP error ${resp.status}`);
-  }
-
-  const data = resp.json();
-
-  return data as Promise<Metrics>;
-}
-
-export async function metric(expId: string, metricId: string): Promise<Metric> {
-  const url = `${expURL}${expId}/metric/${metricId}`;
-
-  const resp = await makeRequest(url);
-
-  if (!resp.ok) {
-    throw new Error(`HTTP Error ${resp.status}`);
-  }
-
-  const data = resp.json();
-
-  return data as Promise<Metric>;
-}
-
-export async function artifacts(expId: string): Promise<Artifacts> {
-  const url = `${expURL}${expId}/artifacts`;
-
-  const resp = await makeRequest(url);
-
-  if (!resp.ok) {
-    throw new Error(`HTTP Error ${resp.status}`);
-  }
-
-  const data = resp.json();
-
-  return data as Promise<Artifacts>;
-}
-
-export async function registries(): Promise<RegistriesResponse> {
-  const resp = await makeRequest(registriesURL);
-
-  const data = await resp.json();
-
-  return data as RegistriesResponse;
-}
-
-export async function registry(id: string): Promise<RegistryResponse> {
-  const url = `${registryURL}${id}`;
-
-  const resp = await makeRequest(url);
-
-  if (resp.status != 200) {
-    throw Error("could not fetch registry");
-  }
-
-  return (await resp.json()) as RegistryResponse;
-}
-
-export async function benchmarks(): Promise<BenchmarksResponse> {
-  const resp = await makeRequest(benchmarksURL);
-
-  return (await resp.json()) as BenchmarksResponse;
-}
-
-export async function benchmark(id: string): Promise<BenchmarkResponse> {
-  const url = `${benchmarkURL}${id}`;
-
-  const resp = await makeRequest(url);
-
-  return (await resp.json()) as BenchmarkResponse;
-}
-
 export async function isAuthorized(): Promise<boolean> {
-  const resp = await makeRequest(authURL);
+  const { response } = await Client.GET("/authorized");
 
-  return !(resp.status == 401);
+  return response.status !== 401;
 }
 
-async function makeRequest(url: string): Promise<Response> {
-  return await fetch(url, {
-    credentials: "include",
-  });
+export async function logout(): Promise<void> {
+  await Client.GET("/logout");
+}
+
+export function artifactURL(rid: string, aid: string): string {
+  return `${Mlsolid}/v1/artifact/${rid}/${aid}`;
+}
+
+/**
+ * Loops a paginated GET endpoint, following its `cursor` until "0", merging
+ * each page's items into a running accumulator.
+ */
+export async function collectPages<Page>(
+  fetchPage: (cursor: string) => Promise<Page & { cursor: string }>,
+  merge: (acc: Page, page: Page) => Page,
+  initial: Page,
+): Promise<Page> {
+  let cursor = "0";
+  let acc = initial;
+
+  do {
+    const page = await fetchPage(cursor);
+    acc = merge(acc, page);
+    cursor = page.cursor;
+  } while (cursor !== "0");
+
+  return acc;
 }

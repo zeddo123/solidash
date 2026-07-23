@@ -1,4 +1,5 @@
-import { metric, type RunInfo } from "@/api/mlsolid";
+import { type RunInfo } from "@/api/mlsolid";
+import { metric } from "@/api/exps";
 import { useQuery } from "@tanstack/react-query";
 import SingleNumericChart from "@/components/single-numeric-chart";
 import {

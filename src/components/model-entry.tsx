@@ -9,7 +9,8 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Badge } from "./ui/badge";
-import type { RegistryEntry } from "@/api/mlsolid";
+import type { RegistryEntry } from "@/api/model_registries";
+import { artifactURL } from "@/api/mlsolid";
 import { Button } from "./ui/button";
 import { DownloadIcon, EllipsisVertical, Tags } from "lucide-react";
 import {
@@ -20,7 +21,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { toast } from "sonner";
 
 interface ModelEntryProps {
   version: string;
@@ -58,7 +58,9 @@ export function ModelEntry({
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={() => toast("Downloading...")}
+                  onClick={() =>
+                    window.open(artifactURL(entry.run, entry.name), "_blank")
+                  }
                 >
                   <DownloadIcon />
                   Download

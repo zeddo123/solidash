@@ -1,4 +1,4 @@
-import { registry } from "@/api/mlsolid";
+import { registry } from "@/api/model_registries";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { toast } from "sonner";

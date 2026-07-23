@@ -4,6 +4,143 @@
  */
 
 export interface paths {
+    "/login/{provider}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description start the OAuth login flow for the given provider */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description OAuth provider name (e.g. github, google) */
+                    provider: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description redirect to the OAuth provider's consent screen */
+                302: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/callback/{provider}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description OAuth callback completing authentication and starting a session */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description OAuth provider name (e.g. github, google) */
+                    provider: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description authentication successful, redirected back to the frontend */
+                302: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description authentication failed or user not allowed to access the resource */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string;
+                    };
+                };
+                /** @description session could not be created */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description log the current user out and destroy their session */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description logged out successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string;
+                    };
+                };
+                /** @description could not log out user or clear session */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/authorize": {
         parameters: {
             query?: never;
@@ -32,6 +169,7 @@ export interface paths {
                         };
                     };
                 };
+                /** @description could not generate api key */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -67,6 +205,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
+                /** @description user is authorized */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -77,6 +216,7 @@ export interface paths {
                         };
                     };
                 };
+                /** @description user is not authorized */
                 401: {
                     headers: {
                         [name: string]: unknown;
@@ -87,6 +227,7 @@ export interface paths {
                         };
                     };
                 };
+                /** @description could not determine authorization status */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -112,10 +253,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description retrieve all experiment with a list of their runs. */
+        /** @description retrieve a page of experiments with a list of their runs. */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    /** @description Opaque pagination cursor from a previous response's `cursor` field. Omit or pass "0" to start from the beginning. */
+                    cursor?: components["parameters"]["PaginationCursor"];
+                    /** @description Maximum number of items to return in this page. This is a hint, not a guarantee of exact page size. Capped server-side at 200. */
+                    limit?: components["parameters"]["PaginationLimit"];
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -129,6 +275,15 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["ExperimentsResponse"];
+                    };
+                };
+                /** @description bad cursor or limit query param */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
                 /** @description could not retrieve experiments */
@@ -437,10 +592,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description retrieve all registry names */
+        /** @description retrieve a page of registry names */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    /** @description Opaque pagination cursor from a previous response's `cursor` field. Omit or pass "0" to start from the beginning. */
+                    cursor?: components["parameters"]["PaginationCursor"];
+                    /** @description Maximum number of items to return in this page. This is a hint, not a guarantee of exact page size. Capped server-side at 200. */
+                    limit?: components["parameters"]["PaginationLimit"];
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -454,6 +614,15 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["RegistriesResponse"];
+                    };
+                };
+                /** @description bad cursor or limit query param */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
                 /** @description could not retrieve resource */
@@ -597,10 +766,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description retrieve list of benchmarks */
+        /** @description retrieve a page of benchmarks */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    /** @description Opaque pagination cursor from a previous response's `cursor` field. Omit or pass "0" to start from the beginning. */
+                    cursor?: components["parameters"]["PaginationCursor"];
+                    /** @description Maximum number of items to return in this page. This is a hint, not a guarantee of exact page size. Capped server-side at 200. */
+                    limit?: components["parameters"]["PaginationLimit"];
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -614,6 +788,15 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["BenchmarksResponse"];
+                    };
+                };
+                /** @description bad cursor or limit query param */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
                 /** @description could not retrieve artifacts */
@@ -667,6 +850,7 @@ export interface paths {
                         "application/json": components["schemas"]["CreateBenchmarkResponse"];
                     };
                 };
+                /** @description could not create benchmark due to bad request */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -675,6 +859,7 @@ export interface paths {
                         "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
+                /** @description could not find a referenced resource */
                 404: {
                     headers: {
                         [name: string]: unknown;
@@ -683,6 +868,7 @@ export interface paths {
                         "application/json": components["schemas"]["ErrorResponse"];
                     };
                 };
+                /** @description could not create benchmark */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -862,7 +1048,10 @@ export interface paths {
         /** @description toggle benchmark pause/unpause */
         put: {
             parameters: {
-                query?: never;
+                query: {
+                    /** @description desired paused state */
+                    paused: boolean;
+                };
                 header?: never;
                 path: {
                     /** @description benchmark id */
@@ -1086,7 +1275,10 @@ export interface paths {
         /** @description retrieve best benchmark runs */
         get: {
             parameters: {
-                query?: never;
+                query: {
+                    /** @description comma-separated list of metric names to compare */
+                    metrics: string;
+                };
                 header?: never;
                 path: {
                     /** @description benchmark id */
@@ -1094,11 +1286,7 @@ export interface paths {
                 };
                 cookie?: never;
             };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["BestBenchmarkRequest"];
-                };
-            };
+            requestBody?: never;
             responses: {
                 /** @description best benchmark retrieved successfully */
                 200: {
@@ -1109,23 +1297,8 @@ export interface paths {
                         "application/json": components["schemas"]["BestBenchmarkResponse"];
                     };
                 };
+                /** @description bad request */
                 400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorResponse"];
-                    };
-                };
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorResponse"];
-                    };
-                };
-                500: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -1175,7 +1348,7 @@ export interface components {
              */
             datasetURL: string;
             /** @description Whether dataset is stored in S3 */
-            datasetFromS3: boolean;
+            datasetFromS3?: boolean;
         };
         UpdateBenchmarkRequest: {
             /** @description New name for the benchmark */
@@ -1187,13 +1360,11 @@ export interface components {
             /** @description Update the decision metric */
             decisionMetric?: string;
         };
-        /** @description benchmark metrics */
-        BestBenchmarkRequest: string[];
         ExperimentsResponse: {
             /** @description description of successful operation */
             details: string;
             /**
-             * @description Map of experiment ids to list of recorded run ids.
+             * @description Map of experiment ids to list of recorded run ids, for the current page.
              * @example {
              *       "exp1": [
              *         "run#1",
@@ -1207,6 +1378,8 @@ export interface components {
             exps: {
                 [key: string]: string[];
             };
+            /** @description Opaque cursor for the next page. "0" means there are no more results. */
+            cursor: string;
         };
         ExperimentResponse: {
             /** @description description of successfully operation */
@@ -1271,12 +1444,38 @@ export interface components {
         RegistriesResponse: {
             /** @description description of successfully operation */
             details: string;
+            /** @description registry ids for the current page */
             registries: string[];
+            /** @description Opaque cursor for the next page. "0" means there are no more results. */
+            cursor: string;
         };
         RegistryResponse: {
             /** @description description of successful operation */
             details: string;
-            registry: components["schemas"]["Registry"];
+            /** @description Registry name */
+            name: string;
+            /**
+             * Format: int64
+             * @description Last version number
+             */
+            lastVer: number;
+            /** @description Map of tag names to lists of integer version numbers */
+            tags: {
+                [key: string]: number[];
+            };
+            /**
+             * Format: date-time
+             * @description Creation timestamp
+             */
+            createdAt: string;
+            /** @description Map of model version numbers to their information */
+            entriesInfo: {
+                [key: string]: components["schemas"]["EntryInfo"];
+            };
+            /** @description docker image for benchmarking */
+            benchmarkImage?: string;
+            /** @description enable/disable gpu passthrough when benchmarking */
+            benchmarkGpuPassthrough?: boolean;
         };
         CreateRegistryResponse: {
             details: string;
@@ -1285,8 +1484,17 @@ export interface components {
         BenchmarksResponse: {
             /** @description description of successfully operation */
             details: string;
-            /** @description array of benchmark ids */
-            benchmarks: string[];
+            /**
+             * @description Map of benchmark id to benchmark name, for the current page.
+             * @example {
+             *       "bench-123": "performance-test-01"
+             *     }
+             */
+            benchmarks: {
+                [key: string]: string;
+            };
+            /** @description Opaque cursor for the next page. "0" means there are no more results. */
+            cursor: string;
         };
         CreateBenchmarkResponse: {
             /** @description id of new benchmark */
@@ -1314,8 +1522,9 @@ export interface components {
         };
         BestBenchmarkResponse: {
             details: string;
+            /** @description Map of metric name to the best run for that metric. */
             runs: {
-                [key: string]: components["schemas"]["BenchRun"][];
+                [key: string]: components["schemas"]["BenchRun"];
             };
         };
         KeyLabelsResponse: {
@@ -1340,37 +1549,15 @@ export interface components {
             /** @description details on why operation was unsuccessful */
             error: string;
         };
-        Registry: {
-            /** @description Registry details */
-            details: string;
-            /** @description Registry name */
-            name: string;
-            /**
-             * Format: int64
-             * @description Last version number
-             */
-            lastVer: number;
-            /** @description Map of tag names to lists of integer IDs */
-            tags: {
-                [key: string]: number[];
-            };
-            /**
-             * Format: date-time
-             * @description Creation timestamp
-             */
-            createdAt: string;
-            /** @description Map of entry IDs to their information */
-            entriesInfo: {
-                [key: string]: components["schemas"]["EntryInfo"];
-            };
-            /** @description docker image for benchmarking */
-            benchmarkImage?: string;
-            /** @description enable/disable gpu passthrough when benchmarking */
-            benchmarkGpuPassthrough?: boolean;
-        };
         /** @description model entry information */
         EntryInfo: {
-            createdAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            tags: string[];
+            /** @description name of the artifact the model entry was created from */
+            name: string;
+            /** @description id of the run the model entry was created from */
+            run: string;
         };
         Bench: {
             /**
@@ -1402,7 +1589,7 @@ export interface components {
              * @description Custom tag (required)
              * @example nightly-run
              */
-            tag: string;
+            tag?: string;
             /**
              * @description Metric used for decision making
              * @example accuracy
@@ -1473,10 +1660,25 @@ export interface components {
              * @example 2025-05-08T14:30:00Z
              */
             timestamp?: string;
+            /**
+             * Format: date-time
+             * @description Time the benchmark run started
+             */
+            start?: string;
+            /**
+             * Format: date-time
+             * @description Time the benchmark run ended
+             */
+            end?: string;
         };
     };
     responses: never;
-    parameters: never;
+    parameters: {
+        /** @description Opaque pagination cursor from a previous response's `cursor` field. Omit or pass "0" to start from the beginning. */
+        PaginationCursor: string;
+        /** @description Maximum number of items to return in this page. This is a hint, not a guarantee of exact page size. Capped server-side at 200. */
+        PaginationLimit: number;
+    };
     requestBodies: never;
     headers: never;
     pathItems: never;

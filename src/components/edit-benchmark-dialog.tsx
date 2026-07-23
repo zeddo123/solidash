@@ -7,82 +7,82 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "./ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { Switch } from "./ui/switch";
-import { CreateModelRegistry } from "@/api/model_registries";
+import { Label } from "./ui/label";
+import { UpdateBenchmark } from "@/api/benchmarks";
 import { Client } from "@/api/mlsolid";
+import type { components } from "@/api/generated";
 import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
 import * as z from "zod";
 
+type Bench = components["schemas"]["Bench"];
+
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  benchmarkImage: z.string().optional(),
-  benchmarkGpuPassthrough: z.boolean(),
+  name: z.string().min(1, "Name must not be empty."),
+  autoTag: z.boolean(),
+  tag: z.string().optional(),
+  decisionMetric: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function AddModelRegistryDialog({
+export function EditBenchmarkDialog({
+  benchmark,
   onSuccess,
 }: {
+  benchmark: Bench;
   onSuccess?: () => void;
 }) {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const form = useForm({
     defaultValues: {
-      name: "",
-      benchmarkImage: "",
-      benchmarkGpuPassthrough: false,
+      name: benchmark.name,
+      autoTag: benchmark.autoTag ?? false,
+      tag: benchmark.tag ?? "",
+      decisionMetric: benchmark.decisionMetric ?? "",
     } as FormValues,
     validators: {
       onChange: formSchema,
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      toast.info("creating model registry");
-      const { data, error } = await CreateModelRegistry(Client, {
+      toast.info("updating benchmark");
+      const { data, error } = await UpdateBenchmark(Client, benchmark.id, {
         name: value.name,
-        benchmarkImage: value.benchmarkImage || undefined,
-        benchmarkGpuPassthrough: value.benchmarkGpuPassthrough,
+        autoTag: value.autoTag,
+        tag: value.tag,
+        decisionMetric: value.decisionMetric,
       });
 
       if (error) {
-        toast.error("could not create model registry: " + error);
+        toast.error("could not update benchmark: " + error);
         return;
       }
 
       toast.success(data.details);
-      queryClient.invalidateQueries({ queryKey: ["registries"] });
-      form.reset();
+      queryClient.invalidateQueries({ queryKey: ["benchmark", benchmark.id] });
+      queryClient.invalidateQueries({ queryKey: ["benchmarks"] });
       onSuccess?.();
-      navigate(`/registry/${data.id}`);
     },
   });
 
   return (
     <DialogContent className="sm:max-w-sm" showCloseButton={false}>
       <form
-        id="create-model-registry"
+        id="edit-benchmark"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
         }}
       >
         <DialogHeader>
-          <DialogTitle>New Model Registry</DialogTitle>
-          <DialogDescription>create a new model registry</DialogDescription>
+          <DialogTitle>Edit Benchmark</DialogTitle>
+          <DialogDescription>update benchmark settings</DialogDescription>
         </DialogHeader>
         <FieldGroup className="mt-5">
           <form.Field
@@ -99,7 +99,6 @@ export function AddModelRegistryDialog({
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     aria-invalid={isInvalid}
-                    placeholder="SAM Registry"
                   ></Input>
                   {field.state.meta.isTouched && isInvalid && (
                     <FieldError errors={field.state.meta.errors} />
@@ -109,29 +108,11 @@ export function AddModelRegistryDialog({
             }}
           />
           <form.Field
-            name="benchmarkImage"
-            children={(field) => (
-              <Field>
-                <FieldLabel htmlFor={field.name}>Benchmark image</FieldLabel>
-                <FieldDescription>
-                  docker image used to benchmark entries in this registry
-                </FieldDescription>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="ghcr.io/org/bench:latest"
-                ></Input>
-              </Field>
-            )}
-          />
-          <form.Field
-            name="benchmarkGpuPassthrough"
+            name="autoTag"
             children={(field) => (
               <Field>
                 <div className="flex items-center space-x-2 justify-between">
-                  <FieldLabel htmlFor={field.name}>GPU passthrough</FieldLabel>
+                  <Label htmlFor={field.name}>Auto Tagging</Label>
                   <Switch
                     id={field.name}
                     name={field.name}
@@ -139,21 +120,46 @@ export function AddModelRegistryDialog({
                     onCheckedChange={field.handleChange}
                   />
                 </div>
-                <FieldDescription>
-                  enable GPU passthrough when benchmarking
-                </FieldDescription>
+              </Field>
+            )}
+          />
+          <form.Field
+            name="tag"
+            children={(field) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>Tag</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="latest"
+                ></Input>
+              </Field>
+            )}
+          />
+          <form.Field
+            name="decisionMetric"
+            children={(field) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>Decision Metric</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="loss"
+                ></Input>
               </Field>
             )}
           />
         </FieldGroup>
         <DialogFooter className="mt-5">
           <DialogClose asChild>
-            <Button variant="outline" onClick={() => form.reset()}>
-              Cancel
-            </Button>
+            <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" form="create-model-registry">
-            Add
+          <Button type="submit" form="edit-benchmark">
+            Save
           </Button>
         </DialogFooter>
       </form>
