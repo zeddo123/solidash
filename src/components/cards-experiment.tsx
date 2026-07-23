@@ -1,11 +1,11 @@
 import {
   ExperimentMetricsCount,
   ExperimentRunsCount,
-  GetRunInfo,
   RunArtifacts,
   type Artifacts,
   type Experiment,
-} from "@/api/mlsolid";
+} from "@/api/exps";
+import { artifactURL, GetRunInfo } from "@/api/mlsolid";
 import { ListCard, MetricsCard, StringListCard, TimeAgoCard } from "./card";
 
 interface CardsExperimentProps {
@@ -57,6 +57,7 @@ export default function CardsExperiment({
           list={artifacts ? RunArtifacts(artifacts, selectedRun) : undefined}
           isLoading={artifactsLoading}
           error={artifactsError}
+          linkBuilder={(aid) => artifactURL(selectedRun, aid)}
         ></StringListCard>
       </div>
     );

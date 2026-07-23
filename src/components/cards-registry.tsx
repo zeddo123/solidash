@@ -1,4 +1,4 @@
-import type { RegistryResponse } from "@/api/mlsolid";
+import type { RegistryResponse } from "@/api/model_registries";
 import { MetricsCard, TimeAgoCard } from "./card";
 
 interface CardsExperimentProps {

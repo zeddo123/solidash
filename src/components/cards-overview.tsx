@@ -1,9 +1,5 @@
-import {
-  experiments,
-  registries,
-  TotalExperiments,
-  TotalRuns,
-} from "@/api/mlsolid";
+import { experiments, TotalExperiments, TotalRuns } from "@/api/exps";
+import { registries } from "@/api/model_registries";
 import { useQuery } from "@tanstack/react-query";
 import { MetricsCard } from "./card";
 

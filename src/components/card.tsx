@@ -138,6 +138,7 @@ interface StringListCardProps {
   list: string[] | undefined;
   isLoading: boolean;
   error: Error | null;
+  linkBuilder?: (item: string) => string;
 }
 
 export function StringListCard({
@@ -145,6 +146,7 @@ export function StringListCard({
   list,
   isLoading,
   error,
+  linkBuilder,
 }: StringListCardProps) {
   if (error) {
     toast.error("could not load artifacts: " + error);
@@ -169,7 +171,18 @@ export function StringListCard({
                 )}
                 {list.map((item, index) => (
                   <React.Fragment key={index}>
-                    <div className="text-sm truncate">{item}</div>
+                    {linkBuilder ? (
+                      <a
+                        href={linkBuilder(item)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm truncate hover:underline block"
+                      >
+                        {item}
+                      </a>
+                    ) : (
+                      <div className="text-sm truncate">{item}</div>
+                    )}
                     <Separator className="my-2" />
                   </React.Fragment>
                 ))}
